@@ -1,0 +1,25 @@
+{% extends 'bootstrap/base.html' %}
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+{% block title %}
+    {% if title %}{{ title }} - CTS{% else %}CTS{% endif %}
+{% endblock %}
+<head>
+    {% block head %}
+        <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='main.css') }}">
+        <link href="https://fonts.googleapis.com/css?family=Caveat+Brush&display=swap" rel="stylesheet">
+        <script type="text/javascript" src="{{url_for('static', filename='button.js')}}"></script>
+    {% endblock %}
+</head>
+{% block navbar %}
+    {% include '_navbar.html' %}
+{% endblock %}
+
+{% block content %}
+
+
+    {# application content needs to be provided in the app_content block #}
+    {% block app_content %}
+
+    {% endblock %}
+{% endblock %}

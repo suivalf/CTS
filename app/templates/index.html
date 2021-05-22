@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="content">
+    <h2>Hi, {{ current_user.username }}!</h2>
+
+    <form action="" method="get">
+      <select name="option" class="option">
+          <option disabled selected value>-- choose crypto --</option>
+          {% for o in option_list  %}
+            <option name="name" class= "name" id="name" autofocus value="{{ o }}">{{  o }}</option>
+          {% endfor %}
+      </select><input type="submit" class= "subm" id="subm" value="Add">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+            <div style="font-size:15px;color:firebrick;">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+        {% endwith %}
+    </form>
+
+    {% if coins|length <= 1 %}
+        <p>What crypto interests you? Add it.</p>
+    {% else %}
+        {% for coin in coins[1:] %}
+    <p id="info" class="info" name="info">You are interested in <b> {{ coin.name }} </b><b> (USD) </b><a id="del" class="del" name="del" href="/delete/{{coin.id}}"> <button type="submit" id="button" class='button'></button></a> </p>
+        {% endfor %}
+    {% endif %}
+</div>
+{% endblock %}
