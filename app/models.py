@@ -32,10 +32,13 @@ class User(UserMixin, db.Model):
 
 class Coin(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    coinid = db.Column(db.String(140), index=True)
+    symbol = db.Column(db.String(140), index=True)
     name = db.Column(db.String(140), index=True)
+    price = db.Column(db.Integer, index=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     def __repr__(self):
-        return '<Coin {}>'.format(self.name)
+        return '<Coin: Symbol-{}, Name-{}, Price-{}>'.format(self.symbol, self.name, self.price)
 
 
 @login.user_loader

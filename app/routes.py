@@ -1,35 +1,47 @@
-from flask import render_template, flash, redirect, request, url_for
+import requests
+from flask import render_template, flash, redirect, request, url_for, jsonify
 from flask_login import current_user, login_user, logout_user, login_required
 from app.forms import LoginForm, RegistrationForm, CoinForm
 from app.models import User, Coin, load_user
 from werkzeug.urls import url_parse
 from app import db, app
-from app.TTScripts import get_all
+from app.TTScripts import get_all, check_price, get_price_from_symbol, get_stringid_from_symbol
 
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/index', methods=['GET', 'POST'])
 @login_required
 def index():
     option_list = get_all()
-    coinName = request.args.get('option')
-    coin = Coin(name=coinName)
-    Coin.query.filter_by(name='None').delete()
-    db.session.commit()
-    found = 0
-    print(coinName)
-    for c in Coin.query.filter(Coin.user_id == current_user.id).all():
-        if c.name == coinName:
-            found = 1
-    if found == 0:
-        if coinName != 'None':
-            current_user.coins.append(coin)
+    if request.method == 'GET':
+        if request.args.get('option') is not None:
+            c = request.args.get('option').split("-")
+            coinSymbol = c[0]
+            coinId = get_stringid_from_symbol(coinSymbol)
+            coinName = c[1]
+            coinPrice = round(float(get_price_from_symbol(coinSymbol)), 5)
+            coin = Coin(coinid=coinId, symbol=coinSymbol, name=coinName, price=coinPrice)
+            Coin.query.filter_by(name='None').delete()
             db.session.commit()
-            flash('Your coin is now added!')
-    elif found == 1 and coinName != 'None':
-        flash('You own this coin already')
+            found = 0
+            for c in Coin.query.filter(Coin.user_id == current_user.id).all():
+                if c.symbol == coinSymbol:
+                    found = 1
+            if found == 0:
+                if coinName != 'None':
+                    current_user.coins.append(coin)
+                    db.session.commit()
+                    flash('Your coin is now added!')
+            elif found == 1:
+                flash('You have this coin already!')
     owns = current_user.followed_coins()
 
-    return render_template('index.html', coins=owns, option_list=option_list, coinName=coinName)
+    return render_template('index.html', coins=owns, option_list=option_list)
+
+
+@app.route("/playPrice/<string:symbol>", methods=['GET'])
+def playPrice(symbol):
+    check_price(symbol)
+    return redirect('/')
 
 
 @app.route('/delete/<int:id>')
@@ -39,8 +51,9 @@ def delete(id):
             try:
                 current_user.coins.remove(c)
                 db.session.commit()
+                flash('Coin removed!')
             except:
-                flash('You own this coin already')
+                flash('Something went wrong.')
     return redirect('/')
 
 

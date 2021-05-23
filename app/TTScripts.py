@@ -4,50 +4,41 @@ import playsound
 import os
 import time
 
-def check_price():
+def check_price(symbol):
+    id = get_stringid_from_symbol(symbol)
     while True:
-        #https://api.coinbase.com/v2/prices/REP-USD/spot
-        responseBTC = requests.get('https://api.coinbase.com/v2/prices/spot?currency=USD')
+        responseBTC = requests.get('https://api.coincap.io/v2/assets/' + id)
         data = responseBTC.json()
-        price = data['data']['amount']
-        print(price)
+        name = data['data']['name']
+        price = data['data']['priceUsd']
+        coinPrice = round(float(price), 4)
         language = 'en'
-        myobj = gTTS(text=price, lang=language, slow=False)
+        myobj = gTTS(text=str(name + 'currently at' + str(coinPrice)), lang=language, slow=False)
         myobj.save("price.mp3")
         playsound.playsound('price.mp3', True)
         os.remove("price.mp3")
-        time.sleep(4)
-
-def prov():
-    crypto = []
-    fiat = []
-    others = []
-    r = requests.get("https://api.pro.coinbase.com/currencies")
-    response = r.json()
-
-    for i in range(len(response)):
-        if response[i]['details']['type'] == 'crypto':
-            crypto.append(response[i]['name'])
-        elif response[i]['details']['type'] == 'fiat':
-            fiat.append(response[i]['name'])
-        else:
-            others.append(response[i]['name'])
-    print("Crypto: \n")
-    print(len(crypto))
-
-    print("Fiat: ]n")
-    print(fiat)
-
-    print("Others: \n")
-    print(len(others))
+        time.sleep(5)
 
 
 def get_all():
-    # This function returns all available cryptocurrencies on Coinbase.
+    # This function returns all available cryptocurrencies on Coincap.
     crypto = []
-    r = requests.get("https://api.pro.coinbase.com/currencies")
+    r = requests.get("https://api.coincap.io/v2/assets")
     response = r.json()
-    for i in range(len(response)):
-        if response[i]['details']['type'] == 'crypto':
-            crypto.append(response[i]['id'] + '-' + response[i]['name'])
+    for i in range(len(response['data'])):
+        crypto.append(response['data'][i]['symbol'] + '-' + response['data'][i]['name'])
     return crypto
+
+def get_stringid_from_symbol(symbol):
+    r = requests.get("https://api.coincap.io/v2/assets")
+    response = r.json()
+    for i in range(len(response['data'])):
+        if response['data'][i]['symbol'] == symbol:
+            return response['data'][i]['id']
+
+def get_price_from_symbol(symbol):
+    r = requests.get("https://api.coincap.io/v2/assets")
+    response = r.json()
+    for i in range(len(response['data'])):
+        if response['data'][i]['symbol'] == symbol:
+            return response['data'][i]['priceUsd']
