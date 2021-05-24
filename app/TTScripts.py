@@ -22,7 +22,7 @@ def check_price(threadName, symbol, userid):
         #print(str(user.id) + "price" + str(id) + ".mp3")
         playsound.playsound(str(userid) + "price" + str(id) + ".mp3", True)
         os.remove(str(userid) + "price" + str(id) + ".mp3")
-        print("%s, %s - %s.".format(threadName, id, userid))
+        #print("%s, %s - %s.".format(threadName, id, userid))
         time.sleep(5)
         counter -= 1
 
