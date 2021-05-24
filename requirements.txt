@@ -23,6 +23,7 @@ Mako==1.1.4
 MarkupSafe==1.1.1
 pathlib2==2.3.5
 playsound==1.2.2
+psycopg2==2.8.6
 python-dateutil==2.8.1
 python-dotenv==0.17.1
 python-editor==1.0.4
