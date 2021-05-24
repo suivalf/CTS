@@ -6,6 +6,8 @@ from app.models import User, Coin, load_user
 from werkzeug.urls import url_parse
 from app import db, app
 from app.TTScripts import get_all, check_price, get_price_from_symbol, get_stringid_from_symbol
+from app.MyThread import myThread
+
 
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/index', methods=['GET', 'POST'])
@@ -38,9 +40,16 @@ def index():
     return render_template('index.html', coins=owns, option_list=option_list)
 
 
+@app.route('/about')
+def about():
+    return render_template('about.html')
+
+
 @app.route("/playPrice/<string:symbol>", methods=['GET'])
 def playPrice(symbol):
-    check_price(symbol)
+    thread = myThread(current_user.username + symbol, current_user.id, symbol)
+    thread.start()
+
     return redirect('/')
 
 

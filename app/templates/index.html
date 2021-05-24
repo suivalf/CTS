@@ -31,11 +31,12 @@
     {% for coin in coins %}
         <p id="info" class="info" name="info">{{ coin.symbol }} -  <b> {{ coin.name }}, </b><b> currently at</b>
             <span class="price" id="{{ coin.coinid }}">{{ coin.price }}$   </span>
-            <a id="del" class="del" name="del" href="/delete/{{coin.id}}" style="float: right;"> <button type="submit" id="button" class='button'></button></a>
-            <a id="play" class="play" name="play" href="/playPrice/{{coin.symbol}}" style="float: right;"> <i class="gg-play-button"></i></a>
-  </p>
+            <a id="del" class="del" name="del" href="/delete/{{coin.id}}" style="float: right;"> <button type="submit" id="button" class='button'>DEL</button></a>
+            <button type="submit"  class='button' style="float: right;"><a id="play" class="play" name="play" href="/playPrice/{{coin.symbol}}" style="float: right;"> <i class="gg-play-button"></i></a>
+            </button></p>
     {% endfor %}
     {% endif %}
+
 
 <br />
 

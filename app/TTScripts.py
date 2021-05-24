@@ -1,23 +1,30 @@
 import requests
+import multiprocessing
 from gtts import gTTS
 import playsound
 import os
 import time
-
-def check_price(symbol):
+exitFlag = 0
+def check_price(threadName, symbol, userid):
     id = get_stringid_from_symbol(symbol)
-    while True:
+    counter = 4
+    while counter:
+        if exitFlag:
+            threadName.exit()
         responseBTC = requests.get('https://api.coincap.io/v2/assets/' + id)
         data = responseBTC.json()
         name = data['data']['name']
         price = data['data']['priceUsd']
         coinPrice = round(float(price), 4)
         language = 'en'
-        myobj = gTTS(text=str(name + 'currently at' + str(coinPrice)), lang=language, slow=False)
-        myobj.save("price.mp3")
-        playsound.playsound('price.mp3', True)
-        os.remove("price.mp3")
+        myobj = gTTS(text=str(name + 'is' + str(coinPrice) + "$"), lang=language, slow=False)
+        myobj.save(str(userid) + "price" + str(id) + ".mp3")
+        #print(str(user.id) + "price" + str(id) + ".mp3")
+        playsound.playsound(str(userid) + "price" + str(id) + ".mp3", True)
+        os.remove(str(userid) + "price" + str(id) + ".mp3")
+        print("%s, %s - %s.".format(threadName, id, userid))
         time.sleep(5)
+        counter -= 1
 
 
 def get_all():

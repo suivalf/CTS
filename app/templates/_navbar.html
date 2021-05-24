@@ -12,6 +12,7 @@ body {
 .topnav {
   overflow: hidden;
   background-color: #999cbf;
+  border-bottom: 4px solid black;
 }
 
 .topnav a {
@@ -64,7 +65,8 @@ body {
 <body>
 
 <div class="topnav" id="myTopnav">
-    <a class="active" href="{{ url_for('index') }}">Home</a>
+    <a class="" href="{{ url_for('index') }}">Home</a>
+    <a class="" href="{{ url_for('about') }}">About</a>
     {% if current_user.is_anonymous %}
     <a class="login" href="{{ url_for('login') }}">Login</a>
     {% else %}
@@ -84,6 +86,16 @@ function myFunction() {
     x.className = "topnav";
   }
 }
+
+
+    $(function(){
+        $('a').each(function(){
+            if ($(this).prop('href') == window.location.href) {
+                $(this).addClass('active'); $(this).parents('li').addClass('active');
+            }
+        });
+    });
+
 </script>
 
 </body>

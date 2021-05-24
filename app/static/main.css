@@ -7,14 +7,24 @@ body {
 }
 
 .content {
-  max-width: 500px;
+  max-width: 600px;
   margin: auto;
   text-align: center;
 }
 
 
+.formm {
+    background-color: rgba(75, 119, 190, 0.6);
+    border-style: solid;
+    border: 3px solid black;
+}
+
 h2 {
   font-family: 'Caveat Brush';font-size: 35px;color:lightblue;
+}
+
+h4 {
+  font-family: 'Caveat Brush';font-size: 25px;color:lightblue;
 }
 
 #subm{
@@ -53,11 +63,14 @@ h2 {
 
 /*Button for del.*/
 .button {
+  font-size: 12px;
+  text-align: center;
+  color: black;
+  font-weight: bold;
   display:inline;
-  width: 25px;
-  height: 25px;
-  border-radius: 50%;
-  color: white;
+  width: 38px;
+  height: 22px;
+  border-radius: 25%;
   border: 2px solid black;
   box-shadow: 4px 4px 2px rgba(0, 0, 0, 0.29);
 }
@@ -73,8 +86,13 @@ p {
     color: lightblue;
 }
 
+p.help-block {
+    font-size: 13px;
+    color: red;
+}
 
 .gg-play-button {
+    color: black;
     box-sizing: border-box;
     position: relative;
     display: block;
