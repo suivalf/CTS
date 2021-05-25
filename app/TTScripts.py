@@ -1,5 +1,4 @@
 import requests
-import multiprocessing
 from gtts import gTTS
 import playsound
 import os
