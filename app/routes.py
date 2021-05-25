@@ -1,4 +1,8 @@
+import sys
+
 import requests
+import time as t
+from datetime import datetime
 from flask import render_template, flash, redirect, request, url_for, jsonify
 from flask_login import current_user, login_user, logout_user, login_required
 from app.forms import LoginForm, RegistrationForm, CoinForm
@@ -7,6 +11,8 @@ from werkzeug.urls import url_parse
 from app import db, app
 from app.TTScripts import get_all, check_price, get_price_from_symbol, get_stringid_from_symbol
 from app.myThread import myThread
+import multiprocessing
+
 
 @app.route('/')
 @app.route('/index', methods=['GET', 'POST'])
@@ -43,13 +49,27 @@ def index():
 def about():
     return render_template('about.html')
 
+threads = []
 
-@app.route("/playPrice/<string:symbol>", methods=['GET'])
-def playPrice(symbol):
-    thread = myThread(current_user.username + symbol, current_user.id, symbol)
-    thread.start()
+@app.route("/playPrice/<string:symbol>/<int:run>/<int:run2>", methods=['GET'])
+def playPrice(symbol, run, run2):
+    #threads = []
+    #t = multiprocessing.Process(target=check_price(current_user.username + symbol, symbol, current_user.id, 1))
+    if run == 1:
+        if run2 == 0:
+            for tr in threads:
+                if tr.name == current_user.username + symbol:
+                    tr._is_running = 0
+                    threads.remove(tr)
+        if run2 == 1:
+            thread = myThread(current_user.username + symbol, current_user.id, symbol, 1)
+            threads.append(thread)
+            thread.start()
+            thread.process = thread
 
     return redirect('/')
+
+
 
 
 @app.route('/delete/<int:id>')
@@ -59,6 +79,10 @@ def delete(id):
             try:
                 current_user.coins.remove(c)
                 db.session.commit()
+                for tr in threads:
+                    if tr.name == current_user.username + c.symbol:
+                        tr._is_running = 0
+                        threads.remove(tr)
                 flash('Coin removed!')
             except:
                 flash('Something went wrong.')
@@ -85,6 +109,10 @@ def login():
 
 @app.route('/logout')
 def logout():
+    for tr in threads:
+        if current_user.username in tr.name:
+            tr._is_running = 0
+            threads.remove(tr)
     logout_user()
     return redirect(url_for('index'))
 

@@ -5,10 +5,9 @@ import playsound
 import os
 import time
 exitFlag = 0
-def check_price(threadName, symbol, userid):
+def check_price(threadName, symbol, userid, flag):
     id = get_stringid_from_symbol(symbol)
-    counter = 4
-    while counter:
+    while flag:
         if exitFlag:
             threadName.exit()
         responseBTC = requests.get('https://api.coincap.io/v2/assets/' + id)
@@ -24,7 +23,6 @@ def check_price(threadName, symbol, userid):
         os.remove(str(userid) + "price" + str(id) + ".mp3")
         #print("%s, %s - %s.".format(threadName, id, userid))
         time.sleep(5)
-        counter -= 1
 
 
 def get_all():
