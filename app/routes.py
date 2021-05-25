@@ -25,7 +25,7 @@ def index():
             coinSymbol = c[0]
             coinId = get_stringid_from_symbol(coinSymbol)
             coinName = c[1]
-            coinPrice = round(float(get_price_from_symbol(coinSymbol)), 5)
+            coinPrice = round(float(get_price_from_symbol(coinSymbol)), 2)
             coin = Coin(coinid=coinId, symbol=coinSymbol, name=coinName, price=coinPrice)
             Coin.query.filter_by(name='None').delete()
             db.session.commit()

@@ -36,7 +36,7 @@
             </button></a>
             <a id="stop" class="del" name="stop" href="/playPrice/{{coin.symbol}}/1/0" style="float: right;"><button type="submit"  class='button' style="float: right;">STOP
             </button></a>
-            <a id="play" class="del" name="play" href="/playPrice/{{coin.symbol}}/1/1" style="float: right;"><button type="submit"  class='button' style="float: right;">PLAY
+            <a class="del" name="play" href="/playPrice/{{coin.symbol}}/1/1" style="float: right;"><button onclick="disable(this)" id="play" type="submit"  class='button' style="float: right;">PLAY
             </button></a>
         </p>
     {% endfor %}
@@ -69,7 +69,7 @@ function ajxCall(){
 
 var processData = function(data){
      for (var i = 0; i < data.length; i++){
-        document.getElementById(data[i].key).innerHTML = String(parseFloat(data[i].value).toFixed(4))+'$';
+        document.getElementById(data[i].key).innerHTML = String(parseFloat(data[i].value).toFixed(2))+'$';
      }
 }
 
@@ -77,6 +77,12 @@ var processData = function(data){
 setInterval(function() {
     ajxCall();
   }, 5000);
+
+function disable(_this) {
+  _this.style.backgroundColor = "red";
+  _this.disabled = true;
+}
+
 
 
 </script>
