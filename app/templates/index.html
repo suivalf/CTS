@@ -30,8 +30,8 @@
         {% endif %}
     {% endwith %}
     {% for coin in coins %}
-        <p id="info" class="info" name="info">{{ coin.symbol }} -  <b> {{ coin.name }}, </b><b> currently at</b>
-            <span class="price" id="{{ coin.coinid }}">{{ coin.price }}$   </span>
+    <p id="info" class="info" name="info"><b>({{ coin.symbol }}) {{ coin.name }}</b><b> - </b>
+            <span class="price" id="{{ coin.coinid }}" style="color: white;">{{ coin.price }}$   </span>
             <a id="del" class="del" name="del" href="/delete/{{coin.id}}" style="float: right;"><button type="submit"  class='button' style="float: right;">DEL
             </button></a>
             <a id="stop" class="del" name="stop" href="/playPrice/{{coin.symbol}}/1/0" style="float: right;"><button type="submit"  class='button' style="float: right;">STOP

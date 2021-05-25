@@ -1,5 +1,7 @@
 import threading
 import sys
+import pyaudio
+import wave
 import requests
 from app.TTScripts import check_price
 from gtts import gTTS
@@ -32,8 +34,8 @@ class myThread (threading.Thread):
          language = 'en'
          myobj = gTTS(text=str(name + 'is' + str(coinPrice) + "$"), lang=language, slow=False)
          myobj.save(str(self.userid) + "price" + str(id) + ".mp3")
-         # print(str(user.id) + "price" + str(id) + ".mp3")
          playsound.playsound(str(self.userid) + "price" + str(id) + ".mp3", True)
+         #os.system("start " + str(self.userid) + "price" + str(id) + ".mp3")
          os.remove(str(self.userid) + "price" + str(id) + ".mp3")
          # print("%s, %s - %s.".format(threadName, id, userid))
          time.sleep(5)

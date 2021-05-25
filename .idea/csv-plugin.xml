@@ -17,7 +17,21 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="\app\config.py">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="\app\forms.py">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\app\myThread.py">
           <value>
             <Attribute>
               <option name="separator" value="," />
