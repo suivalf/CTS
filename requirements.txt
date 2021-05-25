@@ -26,7 +26,6 @@ Mako==1.1.4
 MarkupSafe==1.1.1
 pathlib2==2.3.5
 psycopg2==2.8.6
-PyAudio==0.2.11
 pycparser==2.20
 pydub==0.25.1
 pygame==2.0.1
