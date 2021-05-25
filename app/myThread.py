@@ -1,7 +1,6 @@
 import os
 import threading
 import time
-import playsound
 import requests
 from gtts import gTTS
 from pygame import mixer

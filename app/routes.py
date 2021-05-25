@@ -1,17 +1,12 @@
-import sys
-
-import requests
-import time as t
-from datetime import datetime
 from flask import render_template, flash, redirect, request, url_for, jsonify
 from flask_login import current_user, login_user, logout_user, login_required
-from app.forms import LoginForm, RegistrationForm, CoinForm
+from app.forms import LoginForm, RegistrationForm
 from app.models import User, Coin, load_user
 from werkzeug.urls import url_parse
 from app import db, app
-from app.TTScripts import get_all, check_price, get_price_from_symbol, get_stringid_from_symbol
+from app.TTScripts import get_all, get_price_from_symbol, get_stringid_from_symbol
 from app.myThread import myThread
-import multiprocessing
+
 
 
 @app.route('/')
