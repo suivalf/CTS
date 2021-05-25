@@ -1,14 +1,10 @@
 import threading
-import sys
-import pyaudio
-import wave
 import requests
-from app.TTScripts import check_price
 from gtts import gTTS
 import playsound
 import os
 import time
-from app.TTScripts import get_price_from_symbol, get_stringid_from_symbol
+from app.TTScripts import get_stringid_from_symbol
 class myThread (threading.Thread):
 
    def __init__(self, name, userid, symbol, flag):
