@@ -6,6 +6,7 @@ from gtts import gTTS
 from pygame import mixer
 from app.TTScripts import get_stringid_from_symbol
 import cloudinary
+import cloudinary.uploader
 
 class myThread (threading.Thread):
 
