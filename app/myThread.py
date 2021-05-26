@@ -5,7 +5,7 @@ import requests
 from gtts import gTTS
 from pygame import mixer
 from app.TTScripts import get_stringid_from_symbol
-
+import cloudinary
 
 class myThread (threading.Thread):
 
@@ -32,17 +32,17 @@ class myThread (threading.Thread):
          language = 'en'
          myobj = gTTS(text=str(name + 'is' + str(coinPrice) + "$"), lang=language, slow=False)
          myobj.save(str(self.userid) + "price" + str(id) + ".mp3")
-         mixer.init()
-         mixer.music.load(str(self.userid) + "price" + str(id) + ".mp3")
-         mixer.music.play()
-         while mixer.music.get_busy():
-            time.sleep(3)
-         mixer.music.unload()
-         os.remove(str(self.userid) + "price" + str(id) + ".mp3")
-         #playsound.playsound(str(self.userid) + "price" + str(id) + ".mp3", True)
-         #os.system("start " + str(self.userid) + "price" + str(id) + ".mp3")
+         cloudinary.uploader.upload(str(self.userid) + "price" + str(id) + ".mp3", public_id = str(self.userid) + "price" + str(id) + ".mp3", resource_type='raw')
+         pi = str(self.userid) + "price" + str(id) + ".mp3"
+         cloudinary.utils.cloudinary_url(pi)
+         #---old
+         #mixer.init()
+         #mixer.music.load(str(self.userid) + "price" + str(id) + ".mp3")
+         #mixer.music.play()
+         #while mixer.music.get_busy():
+            #time.sleep(3)
+         #mixer.music.unload()
          #os.remove(str(self.userid) + "price" + str(id) + ".mp3")
-         # print("%s, %s - %s.".format(threadName, id, userid)
       return
 
 
