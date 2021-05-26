@@ -1,6 +1,6 @@
 import os
 import threading
-import time
+import time, io, urllib
 import requests
 from gtts import gTTS
 from pygame import mixer
@@ -32,10 +32,12 @@ class myThread (threading.Thread):
          coinPrice = round(float(price), 2)
          language = 'en'
          myobj = gTTS(text=str(name + 'is' + str(coinPrice) + "$"), lang=language, slow=False)
-         myobj.save(str(self.userid) + "price" + str(id) + ".mp3")
-         cloudinary.uploader.upload(str(self.userid) + "price" + str(id) + ".mp3", public_id = str(self.userid) + "price" + str(id) + ".mp3", resource_type='raw')
-         pi = str(self.userid) + "price" + str(id) + ".mp3"
-         cloudinary.utils.cloudinary_url(pi)
+         myobj.save(str(self.userid) + "price" + str(self.symbol) + ".mp3")
+         pi = str(self.userid) + "price" + str(self.symbol)
+         x=cloudinary.uploader.upload(str(self.userid) + "price" + str(self.symbol)+ ".mp3", public_id=pi,use_filename=True, unique_filename=False, resource_type="video")
+         print(x['version'])
+         #cloudinary.utils.cloudinary_url(pi)
+         time.sleep(4)
          #---old
          #mixer.init()
          #mixer.music.load(str(self.userid) + "price" + str(id) + ".mp3")
@@ -47,6 +49,30 @@ class myThread (threading.Thread):
       return
 
 
+class myfile(object):
+   def __init__(self, url):
+      self.url = url
+      self.file = ''
+      self.pos = 0
+      self.chunk_gen = self.stream()
 
+   def stream(self):
+      r = requests.get(self.url, stream=True)
+      for chunk in r.iter_content(chunk_size=40972):
+         if chunk:
+            self.file += chunk
+            yield
 
+   def read(self, *args):
+      size = args[0]
+      while self.pos + size > len(self.file):
+         try:
+            self.chunk_gen.next()
+         except StopIteration:
+            break
+
+      if len(args) > 0:
+         ret = self.file[self.pos:self.pos + size]
+         self.pos += size
+         return ret
 

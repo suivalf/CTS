@@ -36,7 +36,7 @@
             </button></a>
             <a id="stop" class="del" name="stop" href="/playPrice/{{coin.symbol}}/1/0" style="float: right;"><button type="submit"  class='button' style="float: right;">STOP
             </button></a>
-            <a class="del" name="play" href="/playPrice/{{coin.symbol}}/1/1" style="float: right;"><button onclick="disable(this)" id="play" type="submit"  class='button' style="float: right;">PLAY
+            <a class="del" name="play" href="/playPrice/{{coin.symbol}}/1/1" style="float: right;"><button onclick="sayPrice()" id="play" type="submit"  class='button' style="float: right;">PLAY
             </button></a>
         </p>
     {% endfor %}
@@ -49,6 +49,20 @@
 </div>
 
 <script>
+
+function sayPrice(){
+    var synth = window.speechSynthesis;
+    var x = document.getElementById('bitcoin').innerHTML
+    console.log(x)
+    var utterThis = new SpeechSynthesisUtterance(x);
+    var voices = synth.getVoices();
+    utterThis.lang = 'en-US'
+    synth.speak(utterThis);
+
+}
+setInterval(function() {
+    sayPrice();
+  }, 3000);
 
 function ajxCall(){
     var allData = [];
@@ -66,6 +80,7 @@ function ajxCall(){
         });
     }
 }
+
 
 var processData = function(data){
      for (var i = 0; i < data.length; i++){
