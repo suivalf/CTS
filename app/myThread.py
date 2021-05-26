@@ -1,12 +1,9 @@
-import os
 import threading
-import time, io, urllib
+import time
 import requests
 from gtts import gTTS
-from pygame import mixer
 from app.TTScripts import get_stringid_from_symbol
-import cloudinary
-import cloudinary.uploader
+
 
 class myThread (threading.Thread):
 
@@ -33,19 +30,8 @@ class myThread (threading.Thread):
          language = 'en'
          myobj = gTTS(text=str(name + 'is' + str(coinPrice) + "$"), lang=language, slow=False)
          myobj.save(str(self.userid) + "price" + str(self.symbol) + ".mp3")
-         pi = str(self.userid) + "price" + str(self.symbol)
-         x=cloudinary.uploader.upload(str(self.userid) + "price" + str(self.symbol)+ ".mp3", public_id=pi,use_filename=True, unique_filename=False, resource_type="video")
-         print(x['version'])
-         #cloudinary.utils.cloudinary_url(pi)
          time.sleep(4)
-         #---old
-         #mixer.init()
-         #mixer.music.load(str(self.userid) + "price" + str(id) + ".mp3")
-         #mixer.music.play()
-         #while mixer.music.get_busy():
-            #time.sleep(3)
-         #mixer.music.unload()
-         #os.remove(str(self.userid) + "price" + str(id) + ".mp3")
+
       return
 
 
